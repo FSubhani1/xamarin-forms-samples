@@ -10,17 +10,17 @@ codeunit 52050 XmlEmail
         ins: InStream;
         c: Record customer;
         file: File;
-        tempblob: Record TempBlob;
+        tempblob: Codeunit "Temp Blob";
         t: Text;
         tt: List of [Text];
 
 
     begin
 
-        tempblob.Blob.CreateOutStream(out);
+        tempblob.CreateOutStream(out);
         CustXml.SetDestination(out);
         CustXml.Export();
-        tempblob.Blob.CreateInStream(ins);
+        tempblob.CreateInStream(ins);
         //ins.Read(t);
         tt.Add('fsubhani@elationerp.com');
         smtp2.CreateMessage('faizan', 'fsubhani@elationerp.com', tt, 'test', 'attachment');
