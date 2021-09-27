@@ -10,7 +10,16 @@
   "help": "",
   "url": "",
   "logo": "",
-  "dependencies": [],
+  "dependencies": [
+    {
+     
+      "appId": "7ec0b09c-7888-4f28-8e96-8992897fad93",
+      "name": "WAL WC DEX Interface",
+      "publisher": "Elation LLC",
+      "version": "1.0.0.6"
+     
+    }
+  ],
   "screenshots": [],
   "platform": "1.0.0.0",
   "application": "18.0.0.0",
