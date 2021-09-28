@@ -229,8 +229,25 @@ xmlport 52050 CustXml
                             ExemptionType := '0';
                         end;
                     }
+
+                    textelement(ItemProductTaxCode)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            ItemCat: Record "Item Category";
+                        begin
+                            if ItemCat.Get(SalesInvLine."No.") then
+                                ItemProductTaxCode := ItemCat."TJ Product Tax Code ELA";
+                        end;
+                    }
                 }
             }
+
+            tableelement(SalesCrMemoHeader; "Sales Cr.Memo Header")
+            {
+
+            }
+
         }
     }
     requestpage
