@@ -53,7 +53,7 @@ xmlport 52050 CustXml
                         var
                             myInt: Integer;
                         begin
-                            Type := '';
+                            ReferenceId := '';
                         end;
                     }
                     fieldelement(PostingDate; SalesInvLine."Posting Date")
@@ -236,7 +236,7 @@ xmlport 52050 CustXml
                         var
                             ItemCat: Record "Item Category";
                         begin
-                            if ItemCat.Get(SalesInvLine."No.") then
+                            if ItemCat.Get(SalesInvLine."Item Category Code") then
                                 ItemProductTaxCode := ItemCat."TJ Product Tax Code ELA";
                         end;
                     }
@@ -245,7 +245,229 @@ xmlport 52050 CustXml
 
             tableelement(SalesCrMemoHeader; "Sales Cr.Memo Header")
             {
+                XmlName = 'SalesCrMemoHeader';
+                tableelement(SalesCrLine; "Sales Cr.Memo Line")
+                {
+                    XmlName = 'SaleCrLine';
+                    LinkFields = "Document No." = field("No.");
+                    LinkTable = SalesCrMemoHeader;
 
+                    textelement(WebCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                        begin
+                            WebCR := 'Web';
+                        end;
+                    }
+                    fieldelement(No; SalesCrMemoHeader."No.")
+                    {
+
+                    }
+                    textelement(TypeCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                        begin
+                            Type := 'Refund';
+                        end;
+                    }
+                    textelement(ReferenceIdCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                        begin
+                            ReferenceIdCR := '';
+                        end;
+                    }
+                    fieldelement(PostingDate; SalesCrLine."Posting Date")
+                    {
+
+                    }
+                    fieldelement(CustName; SalesCrMemoHeader."Sell-to Customer Name")
+                    {
+
+                    }
+                    fieldelement(CustAddress; SalesCrMemoHeader."Sell-to Address")
+                    {
+
+                    }
+                    fieldelement(CustCity; SalesCrMemoHeader."Sell-to City")
+                    {
+
+                    }
+                    fieldelement(CustState; SalesCrMemoHeader."Sell-to County")
+                    {
+
+
+                    }
+                    fieldelement(CustZip; SalesCrMemoHeader."Sell-to Post Code")
+                    {
+
+                    }
+                    fieldelement(CustCountry; SalesCrMemoHeader."Sell-to Country/Region Code")
+                    {
+
+                    }
+                    textelement(FromStreetCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                            loc: Record Location;
+                        begin
+                            loc.get(SalesCrMemoHeader."Location Code");
+                            FromStreetCR := loc.Address;
+                        end;
+                    }
+                    textelement(FromCityCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                            loc: Record Location;
+                        begin
+                            loc.get(SalesCrMemoHeader."Location Code");
+                            FromCityCR := loc.City;
+                        end;
+                    }
+                    textelement(FromStateCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                            loc: Record Location;
+                        begin
+                            loc.get(SalesCrMemoHeader."Location Code");
+                            FromStateCR := loc.County;
+                        end;
+                    }
+                    textelement(FromZipCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                            loc: Record Location;
+                        begin
+                            loc.get(SalesCrMemoHeader."Location Code");
+                            FromZipCR := loc."Post Code";
+                        end;
+                    }
+                    textelement(FromCountryCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                            loc: Record Location;
+                        begin
+                            loc.get(SalesCrMemoHeader."Location Code");
+                            FromCountryCR := loc."Country/Region Code";
+                        end;
+                    }
+                    textelement(TotalShippingCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            dexmap: Record "DEX Document Mapping ELA";
+                        begin
+                            if dexmap.get(SalesCrMemoHeader."Site Code") then;
+                            if (SalesInvLine.Type = SalesInvLine.Type::"G/L Account") and (dexmap."Shipping GL Account No." = SalesInvLine."No.") then
+                                TotalShipping := format(SalesInvLine.Quantity);
+                        end;
+                    }
+                    textelement(TotalHandlingCR)
+                    {
+                        trigger OnBeforePassVariable()
+
+                        begin
+                            TotalHandlingCR := '0';
+                        end;
+                    }
+                    textelement(TotalTaxCR)
+                    {
+                        trigger OnBeforePassVariable()
+
+                        begin
+                            TotalTaxCR := '0';
+                        end;
+                    }
+                    textelement(ItemNoCR)
+                    {
+                        trigger OnBeforePassVariable()
+
+                        begin
+                            ItemNoCR := SalesCrLine."No.";
+                        end;
+                    }
+                    textelement(ItemDescriptionCR)
+                    {
+                        trigger OnBeforePassVariable()
+
+                        begin
+                            ItemDescriptionCR := SalesCRLine.Description;
+                        end;
+                    }
+                    fieldelement(Quantity; SalesCrLine.Quantity)
+                    {
+
+                    }
+                    fieldelement(UnitPrice; SalesCrLine."Unit Price")
+                    {
+
+                    }
+                    textelement(ItemShippingCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            dexmap: Record "DEX Document Mapping ELA";
+                        begin
+                            ItemShippingCR := '0';
+                        end;
+                    }
+                    textelement(ItemHandlingCR)
+                    {
+                        trigger OnBeforePassVariable()
+
+                        begin
+                            ItemHandlingCR := '0';
+                        end;
+                    }
+                    fieldelement(Discount; SalesCrLine."Line Discount Amount")
+                    {
+
+                    }
+                    textelement(ItemSalesTaxCR)
+                    {
+                        trigger OnBeforePassVariable()
+
+                        begin
+                            ItemSalesTaxCR := '0';
+                        end;
+                    }
+
+                    textelement(ExemptionTypeCR)
+                    {
+                        trigger OnBeforePassVariable()
+
+                        begin
+                            ExemptionTypeCR := '0';
+                        end;
+                    }
+
+                    textelement(ItemProductTaxCodeCR)
+                    {
+                        trigger OnBeforePassVariable()
+                        var
+                            ItemCat: Record "Item Category";
+                        begin
+                            if ItemCat.Get(SalesCrLine."No.") then
+                                ItemProductTaxCode := ItemCat."TJ Product Tax Code ELA";
+                        end;
+                    }
+                }
             }
 
         }
