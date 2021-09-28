@@ -13,10 +13,18 @@
   "dependencies": [
     {
      
-      "appId": "7ec0b09c-7888-4f28-8e96-8992897fad93",
+      "id": "7ec0b09c-7888-4f28-8e96-8992897fad93",
       "name": "WAL WC DEX Interface",
       "publisher": "Elation LLC",
       "version": "1.0.0.6"
+     
+    },
+    {
+     
+      "id": "dbb36d4a-c1a8-4e4b-89ec-f76b6d79ccce",
+      "name": "EN_WAL_System_Extension",
+      "publisher": "Elation LLC",
+      "version": "1.0.0.0"
      
     }
   ],
