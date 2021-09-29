@@ -92,7 +92,7 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesInvHeader."Location Code");
+                            if loc.get(SalesInvHeader."Location Code") then;
                             FromStreet := loc.Address;
                         end;
                     }
@@ -103,8 +103,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesInvHeader."Location Code");
-                            FromCity := loc.City;
+                            if loc.get(SalesInvHeader."Location Code") then
+                                FromCity := loc.City;
                         end;
                     }
                     textelement(FromState)
@@ -114,8 +114,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesInvHeader."Location Code");
-                            FromState := loc.County;
+                            if loc.get(SalesInvHeader."Location Code") then
+                                FromState := loc.County;
                         end;
                     }
                     textelement(FromZip)
@@ -125,8 +125,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesInvHeader."Location Code");
-                            FromZip := loc."Post Code";
+                            if loc.get(SalesInvHeader."Location Code") then
+                                FromZip := loc."Post Code";
                         end;
                     }
                     textelement(FromCountry)
@@ -136,8 +136,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesInvHeader."Location Code");
-                            FromCountry := loc."Country/Region Code";
+                            if loc.get(SalesInvHeader."Location Code") then
+                                FromCountry := loc."Country/Region Code";
                         end;
                     }
                     textelement(TotalShipping)
@@ -319,8 +319,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesCrMemoHeader."Location Code");
-                            FromStreetCR := loc.Address;
+                            if loc.get(SalesCrMemoHeader."Location Code") then
+                                FromStreetCR := loc.Address;
                         end;
                     }
                     textelement(FromCityCR)
@@ -330,8 +330,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesCrMemoHeader."Location Code");
-                            FromCityCR := loc.City;
+                            if loc.get(SalesCrMemoHeader."Location Code") then
+                                FromCityCR := loc.City;
                         end;
                     }
                     textelement(FromStateCR)
@@ -341,8 +341,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesCrMemoHeader."Location Code");
-                            FromStateCR := loc.County;
+                            if loc.get(SalesCrMemoHeader."Location Code") then
+                                FromStateCR := loc.County;
                         end;
                     }
                     textelement(FromZipCR)
@@ -352,8 +352,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesCrMemoHeader."Location Code");
-                            FromZipCR := loc."Post Code";
+                            if loc.get(SalesCrMemoHeader."Location Code") then
+                                FromZipCR := loc."Post Code";
                         end;
                     }
                     textelement(FromCountryCR)
@@ -363,8 +363,8 @@ xmlport 52050 CustXml
                             myInt: Integer;
                             loc: Record Location;
                         begin
-                            loc.get(SalesCrMemoHeader."Location Code");
-                            FromCountryCR := loc."Country/Region Code";
+                            if loc.get(SalesCrMemoHeader."Location Code") then
+                                FromCountryCR := loc."Country/Region Code";
                         end;
                     }
                     textelement(TotalShippingCR)
@@ -372,10 +372,11 @@ xmlport 52050 CustXml
                         trigger OnBeforePassVariable()
                         var
                             dexmap: Record "DEX Document Mapping ELA";
+                            SRSetup: Record "Sales & Receivables Setup";
                         begin
-                            if dexmap.get(SalesCrMemoHeader."Site Code") then;
-                            if (SalesInvLine.Type = SalesInvLine.Type::"G/L Account") and (dexmap."Shipping GL Account No." = SalesInvLine."No.") then
-                                TotalShipping := format(SalesInvLine.Quantity);
+                            if SRsetup.get() then
+                                if (SalesCrLine.Type = SalesCrLine.Type::"G/L Account") and (SRSetup."G/L Shipping Account ELA" = SalesCrLine."No.") then
+                                    TotalShippingCR := format(SalesCrLine.Quantity);
                         end;
                     }
                     textelement(TotalHandlingCR)

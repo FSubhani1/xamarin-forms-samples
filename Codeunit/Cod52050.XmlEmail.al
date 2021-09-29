@@ -13,7 +13,8 @@ codeunit 52050 XmlEmail
         tempblob: Codeunit "Temp Blob";
         t: Text;
         tt: List of [Text];
-
+        tempFileName: text;
+        ErrorAtt: label 'No Data Found';
 
     begin
 
@@ -22,10 +23,17 @@ codeunit 52050 XmlEmail
         CustXml.Export();
         tempblob.CreateInStream(ins);
         //ins.Read(t);
-        tt.Add('fsubhani@elationerp.com');
+
+
+        /*tt.Add('fsubhani@elationerp.com');
         smtp2.CreateMessage('faizan', 'fsubhani@elationerp.com', tt, 'test', 'attachment');
         smtp2.AddAttachmentStream(ins, 'custs.csv');
         smtp2.Send;
+*/
+
+        tempFileName := 'DataFeed.csv';
+        DownloadFromStream(ins, 'Export', '', 'All Files (*.*)|*.*', tempFileName);
+
 
 
     end;
