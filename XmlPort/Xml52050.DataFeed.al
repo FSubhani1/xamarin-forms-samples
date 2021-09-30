@@ -6,18 +6,44 @@ xmlport 52050 CustXml
     Format = VariableText;
     //FieldDelimiter = '*';
     FieldSeparator = ',';
-    RecordSeparator = '<NewLine>';
-    TableSeparator = '';
-
+    RecordSeparator = '<None>';
+    TableSeparator = '<NewLine>';
+    TextEncoding = UTF8;
     UseRequestPage = false;
     FileName = 'sample.csv';
     schema
     {
+
         textelement(RootNodeName)
         {
+            tableelement(Integer; Integer)
+            {
+                XmlName = 'Header';
+                SourceTableView = SORTING(Number) WHERE(Number = CONST(1));
+                textelement(provider)
+                {
+
+                    trigger OnBeforePassVariable()
+                    begin
+                        provider := 'provider';
+                    end;
+                }
+
+                textelement(TransactionId)
+                {
+
+                    trigger OnBeforePassVariable()
+                    begin
+                        TransactionId := 'transacion_id';
+                    end;
+                }
+
+            }
             tableelement(SalesInvHeader; "Sales Invoice Header")
             {
                 XmlName = 'SalesInvHeader';
+                //SourceTableView = where("Site code" = const(''));
+
 
                 tableelement(SalesInvLine; "Sales Invoice Line")
                 {
@@ -471,7 +497,10 @@ xmlport 52050 CustXml
                 }
             }
 
+
+
         }
+
     }
     requestpage
     {
@@ -491,4 +520,17 @@ xmlport 52050 CustXml
             }
         }
     }
+    trigger OnInitXmlPort()
+    var
+        myInt: Integer;
+        last: date;
+        first: date;
+    begin
+        last := CalcDate('CM -1M', Today);
+        last := CalcDate('CM', last);
+        first := CalcDate('-CM-1M', Today);
+        SalesInvHeader.Setfilter("Posting Date", '%1..%2', first, last);
+        SalesInvHeader.SetFilter("Site Code", '<>%1', '');
+        SalesCrMemoHeader.Setfilter("Posting Date", '%1..%2', first, last);
+    end;
 }
