@@ -4,6 +4,6 @@ pageextension 52050 Custext extends "Customer List"
     var
         myInt: Integer;
     begin
-        Codeunit.Run(52050);
+        //  Codeunit.Run(52050);
     end;
 }
