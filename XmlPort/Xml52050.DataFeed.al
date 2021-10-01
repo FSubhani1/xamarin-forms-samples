@@ -1,6 +1,6 @@
-xmlport 52050 CustXml
+xmlport 52050 "DataFeed XMlPort ELA"
 {
-    Caption = 'CustXml';
+    Caption = 'DataFeed XMlPort';
     Direction = Export;
 
     Format = VariableText;

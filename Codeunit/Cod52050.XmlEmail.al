@@ -1,9 +1,9 @@
-codeunit 52050 XmlEmail
+codeunit 52050 "DataFeed ELA"
 {
     trigger OnRun()
     var
         myInt: Integer;
-        CustXml: XmlPort CustXml;
+        CustXml: XmlPort "DataFeed XMlPort ELA";
         out: OutStream;
         smtp1: Record "SMTP Mail Setup";
         smtp2: Codeunit "SMTP Mail";
@@ -25,15 +25,15 @@ codeunit 52050 XmlEmail
         //ins.Read(t);
 
 
-        /*tt.Add('fsubhani@elationerp.com');
+        tt.Add('fsubhani@elationerp.com');
         smtp2.CreateMessage('faizan', 'fsubhani@elationerp.com', tt, 'test', 'attachment');
-        smtp2.AddAttachmentStream(ins, 'custs.csv');
+        smtp2.AddAttachmentStream(ins, 'DataFeed.csv');
         smtp2.Send;
-*/
 
-        tempFileName := 'DataFeed.csv';
-        DownloadFromStream(ins, 'Export', '', 'All Files (*.*)|*.*', tempFileName);
 
+        /* tempFileName := 'DataFeed.csv';
+         DownloadFromStream(ins, 'Export', '', 'All Files (*.*)|*.*', tempFileName);
+ */
 
 
     end;
