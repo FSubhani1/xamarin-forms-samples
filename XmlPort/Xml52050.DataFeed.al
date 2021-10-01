@@ -7,7 +7,7 @@ xmlport 52050 CustXml
     //FieldDelimiter = '*';
     FieldSeparator = ',';
     RecordSeparator = '<NewLine>';
-    TableSeparator = '<CR/LF>';
+    TableSeparator = '<NewLine>';
     TextEncoding = UTF8;
     UseRequestPage = false;
     FileName = 'sample.csv';
@@ -256,6 +256,7 @@ xmlport 52050 CustXml
                 }
 
             }
+
             tableelement(SalesInvHeader; "Sales Invoice Header")
             {
                 XmlName = 'SalesInvHeader';
