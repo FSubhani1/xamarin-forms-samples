@@ -15,7 +15,7 @@ codeunit 52050 "DataFeed ELA"
         tt: List of [Text];
         tempFileName: text;
         ErrorAtt: label 'No Data Found';
-
+        DexIntSetup: Record "Data Exchange Int. Setup ELA";
     begin
 
         tempblob.CreateOutStream(out);
@@ -24,9 +24,9 @@ codeunit 52050 "DataFeed ELA"
         tempblob.CreateInStream(ins);
         //ins.Read(t);
 
-
-        tt.Add('fsubhani@elationerp.com');
-        smtp2.CreateMessage('faizan', 'fsubhani@elationerp.com', tt, 'test', 'attachment');
+        if DexIntSetup.get() then;
+        tt.Add(DexIntSetup."Email for Tax Jar Notif.");
+        smtp2.CreateMessage('faizan', 'Support@elationerp.com', tt, 'test', 'attachment');
         smtp2.AddAttachmentStream(ins, 'DataFeed.csv');
         smtp2.Send;
 
