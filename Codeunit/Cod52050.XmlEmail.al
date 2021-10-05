@@ -26,7 +26,7 @@ codeunit 52050 "DataFeed ELA"
 
         if DexIntSetup.get() then;
         tt.Add(DexIntSetup."Email for Tax Jar Notif.");
-        smtp2.CreateMessage('faizan', 'Support@elationerp.com', tt, 'test', 'attachment');
+        smtp2.CreateMessage('faizan', 'fsubhani@elationerp.com', tt, 'test', 'attachment');
         smtp2.AddAttachmentStream(ins, 'DataFeed.csv');
         smtp2.Send;
 
