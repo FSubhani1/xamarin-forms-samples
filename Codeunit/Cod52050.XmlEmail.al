@@ -5,8 +5,8 @@ codeunit 52050 "DataFeed ELA"
         myInt: Integer;
         CustXml: XmlPort "DataFeed XMlPort ELA";
         out: OutStream;
-        smtp1: Record "SMTP Mail Setup";
-        smtp2: Codeunit "SMTP Mail";
+        smtp1: Codeunit Email;
+        smtp2: Codeunit "Email Message";
         ins: InStream;
         c: Record customer;
         file: File;
@@ -16,6 +16,7 @@ codeunit 52050 "DataFeed ELA"
         tempFileName: text;
         ErrorAtt: label 'No Data Found';
         DexIntSetup: Record "Data Exchange Int. Setup ELA";
+
     begin
 
         tempblob.CreateOutStream(out);
@@ -26,10 +27,9 @@ codeunit 52050 "DataFeed ELA"
 
         if DexIntSetup.get() then;
         tt.Add(DexIntSetup."Email for Tax Jar Notif.");
-        smtp2.CreateMessage('faizan', 'fsubhani@elationerp.com', tt, 'test', 'attachment');
-        smtp2.AddAttachmentStream(ins, 'DataFeed.csv');
-        smtp2.Send;
-
+        smtp2.Create(DexIntSetup."Email for Tax Jar Notif.", 'test', 'attachment');
+        smtp2.AddAttachment('DataFeed.csv', 'test', ins);
+        smtp1.Send(smtp2);
 
         /* tempFileName := 'DataFeed.csv';
          DownloadFromStream(ins, 'Export', '', 'All Files (*.*)|*.*', tempFileName);
