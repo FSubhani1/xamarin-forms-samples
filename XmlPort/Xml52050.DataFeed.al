@@ -260,6 +260,7 @@ xmlport 52050 "DataFeed XMlPort ELA"
             tableelement(SalesInvHeader; "Sales Invoice Header")
             {
                 XmlName = 'SalesInvHeader';
+                SourceTableView = where("Site Code" = filter(= ''));
 
                 tableelement(SalesInvLine; "Sales Invoice Line")
                 {
