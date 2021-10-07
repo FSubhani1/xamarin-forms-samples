@@ -754,7 +754,6 @@ xmlport 52050 "DataFeed XMlPort ELA"
         last := CalcDate('CM', last);
         first := CalcDate('-CM-1M', Today);
         SalesInvHeader.Setfilter("Posting Date", '%1..%2', first, last);
-        SalesInvHeader.SetFilter("Site Code", '<>%1', '');
         SalesCrMemoHeader.Setfilter("Posting Date", '%1..%2', first, last);
     end;
 }
