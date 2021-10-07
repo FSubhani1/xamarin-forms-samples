@@ -750,10 +750,27 @@ xmlport 52050 "DataFeed XMlPort ELA"
         last: date;
         first: date;
     begin
-        last := CalcDate('CM -1M', Today);
-        last := CalcDate('CM', last);
-        first := CalcDate('-CM-1M', Today);
-        SalesInvHeader.Setfilter("Posting Date", '%1..%2', first, last);
-        SalesCrMemoHeader.Setfilter("Posting Date", '%1..%2', first, last);
+        if GTextFilter = '' then begin
+            last := CalcDate('CM -1M', Today);
+            last := CalcDate('CM', last);
+            first := CalcDate('-CM-1M', Today);
+            SalesInvHeader.Setfilter("Posting Date", '%1..%2', first, last);
+            SalesCrMemoHeader.Setfilter("Posting Date", '%1..%2', first, last);
+        end;
     end;
+
+    procedure SetDate(TextFilter: Text)
+
+    begin
+        SalesInvHeader.SetFilter("Posting Date", TextFilter);
+        SalesCrMemoHeader.SetFilter("Posting Date", TextFilter);
+        GTextFilter := Format(TextFilter);
+
+
+    end;
+
+    var
+
+    var
+        GTextFilter: Text;
 }
