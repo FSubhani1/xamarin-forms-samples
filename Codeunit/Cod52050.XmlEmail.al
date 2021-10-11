@@ -24,11 +24,10 @@ codeunit 52050 "DataFeed ELA"
         CustXml.Export();
         tempblob.CreateInStream(ins);
         //ins.Read(t);
-
         if DexIntSetup.get() then;
         tt.Add(DexIntSetup."Email for Tax Jar Notif.");
-        smtp2.Create(DexIntSetup."Email for Tax Jar Notif.", 'test', 'attachment');
-        smtp2.AddAttachment('DataFeed.csv', 'test', ins);
+        smtp2.Create(DexIntSetup."Email for Tax Jar Notif.", 'Tax Jar DataFeed Test', 'attachment');
+        smtp2.AddAttachment('TaxJarDataFeed.csv', 'test', ins);
         smtp1.Send(smtp2);
 
         /* tempFileName := 'DataFeed.csv';

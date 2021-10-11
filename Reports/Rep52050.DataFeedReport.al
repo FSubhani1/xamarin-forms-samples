@@ -56,7 +56,7 @@ report 52050 "Data Feed Report"
         CustXml.Export();
         tempblob.CreateInStream(ins);
 
-        tempFileName := 'DataFeed.csv';
+        tempFileName := 'TaxJarDataFeed - ' + DateFilter + '.csv';
         DownloadFromStream(ins, 'Export', '', 'All Files (*.*)|*.*', tempFileName);
 
 
