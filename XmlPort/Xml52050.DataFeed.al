@@ -16,6 +16,27 @@ xmlport 52050 "DataFeed XMlPort ELA"
 
         textelement(RootNodeName)
         {
+            tableelement(Integer2; Integer)
+            {
+                XmlName = 'Header';
+                SourceTableView = SORTING(Number) WHERE(Number = CONST(1));
+                textelement(version)
+                {
+
+                    trigger OnBeforePassVariable()
+                    begin
+                        version := 'version';
+                    end;
+                }
+                textelement(v2)
+                {
+
+                    trigger OnBeforePassVariable()
+                    begin
+                        v2 := 'v2';
+                    end;
+                }
+            }
             tableelement(Integer; Integer)
             {
                 XmlName = 'Header';
@@ -260,7 +281,7 @@ xmlport 52050 "DataFeed XMlPort ELA"
             tableelement(SalesInvHeader; "Sales Invoice Header")
             {
                 XmlName = 'SalesInvHeader';
-                SourceTableView = where("Site Code" = filter(= ''));
+                //SourceTableView = where("Site Code" = filter(= ''));
 
                 tableelement(SalesInvLine; "Sales Invoice Line")
                 {
@@ -306,8 +327,14 @@ xmlport 52050 "DataFeed XMlPort ELA"
                             ReferenceId := '';
                         end;
                     }
-                    fieldelement(PostingDate; SalesInvLine."Posting Date")
+                    textelement(InvPostingDate)
                     {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                        begin
+                            InvPostingDate := FORMAT(SalesInvHeader."Posting Date", 10, '<Year4>-<Month,2>-<Day,2>');
+                        end;
 
                     }
                     fieldelement(CustName; SalesInvHeader."Sell-to Customer Name")
@@ -487,7 +514,7 @@ xmlport 52050 "DataFeed XMlPort ELA"
                             ItemCat: Record "Item Category";
                         begin
                             if ItemCat.Get(SalesInvLine."Item Category Code") then
-                                ItemProductTaxCode := ItemCat."TJ Product Tax Code ELA";
+                                ItemProductTaxCode := ItemCat."TJ Prod. Tax Code ELA";
                         end;
                     }
                 }
@@ -533,8 +560,14 @@ xmlport 52050 "DataFeed XMlPort ELA"
                             ReferenceIdCR := '';
                         end;
                     }
-                    fieldelement(PostingDate; SalesCrLine."Posting Date")
+                    textelement(CrPostingDate)
                     {
+                        trigger OnBeforePassVariable()
+                        var
+                            myInt: Integer;
+                        begin
+                            CrPostingDate := FORMAT(SalesCrMemoHeader."Posting Date", 10, '<Year4>-<Month,2>-<Day,2>');
+                        end;
 
                     }
                     fieldelement(CustName; SalesCrMemoHeader."Sell-to Customer Name")
@@ -715,7 +748,7 @@ xmlport 52050 "DataFeed XMlPort ELA"
                             ItemCat: Record "Item Category";
                         begin
                             if ItemCat.Get(SalesCrLine."No.") then
-                                ItemProductTaxCode := ItemCat."TJ Product Tax Code ELA";
+                                ItemProductTaxCode := ItemCat."TJ Prod. Tax Code ELA";
                         end;
                     }
                 }
